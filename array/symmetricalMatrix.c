@@ -21,7 +21,7 @@ int main(int argc, char const *argv[]) {
     memset(arr, 0, sizeof(arr));
     //根据算法存储压缩矩阵
     int i, j, k = 0;
-    for (i = 0; i < 4; i++) {
+    for (i = 0; i < N; i++) {
         for (j = 0; j <= i; j++) {
             arr[k++] = (i + 1) * pow(2, j);
         }
@@ -31,8 +31,8 @@ int main(int argc, char const *argv[]) {
     }
     puts("\n-----------------------------");
     //根据压缩矩阵显示原始矩阵
-    for (i = 1; i <= 4; i++) {
-        for (j = 1; j <= 4; j++) {
+    for (i = 1; i <= N; i++) {
+        for (j = 1; j <= N; j++) {
             printf("%-4d", arr[Index(i, j)]);
         }
         putchar('\n');
