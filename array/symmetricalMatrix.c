@@ -9,7 +9,7 @@
  * 3  6  12 16
  * 4  8  16 32
  */
-#define N 7
+#define N 4
 int Index(int i, int j) {
     if (i < j)
         return Index(j, i);
