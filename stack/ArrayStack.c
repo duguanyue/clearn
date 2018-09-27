@@ -36,5 +36,6 @@ int main(int argc, char const *argv[]) {
         Pop(&c);
         printf("%-3d", c);
     }
+
     return 0;
 }
