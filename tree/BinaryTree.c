@@ -9,11 +9,11 @@
 typedef struct node {
     int data;
     struct node *lChild, *rChild;
-} Node, *BTree;
+} Node, *Tree;
 
 //转化广义表为二叉树
-BTree change(const char *str) {
-    BTree STACK[MaxSize], p, T = NULL;
+Tree change(const char *str) {
+    Tree STACK[MaxSize], p, T = NULL;
     char ch;
     int flag, i = 0, top = -1;
     while (1) {
@@ -32,7 +32,7 @@ BTree change(const char *str) {
             flag = 2;
             break;
         default:
-            p = (BTree)malloc(sizeof(Node));
+            p = (Tree)malloc(sizeof(Node));
             p->data = ch;
             p->lChild = NULL;
             p->rChild = NULL;
@@ -48,7 +48,7 @@ BTree change(const char *str) {
 }
 
 //中序输出树,输出为广义表样式
-void expand(BTree tree) {
+void expand(Tree tree) {
     if (tree == NULL)
         return;
     printf("%c", tree->data);
@@ -67,7 +67,7 @@ void expand(BTree tree) {
 }
 
 int main(int argc, char const *argv[]) {
-    BTree t = change("A(B(C,D(E(F,G),H(I))))@");
+    Tree t = change("A(B(C,D(E(F,G),H(I))))@");
     expand(t);
     return 0;
 }
