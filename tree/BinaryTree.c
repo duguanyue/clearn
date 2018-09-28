@@ -74,11 +74,24 @@ int GetLeafNum(Tree tree) {
 
     return GetLeafNum(tree->lChild) + GetLeafNum(tree->rChild);
 }
+int max(const int a, const int b) {
+    if (a >= b)
+        return a;
+    return b;
+}
+//求二叉树的深度
+int GetDepth(Tree tree) {
+    if (tree == NULL)
+        return 0;
+    return max(GetDepth(tree->lChild), GetDepth(tree->rChild)) + 1;
+}
 
 int main(int argc, char const *argv[]) {
     Tree t = ToTree("A(B(C,D(E(F,G),H(I))))@");
     Expand(t);
     int c = GetLeafNum(t);
     printf("\nLeaf Num: %d\n", c);
+    c = GetDepth(t);
+    printf("Depth: %d\n", c);
     return 0;
 }
