@@ -12,7 +12,7 @@ typedef struct node {
 } Node, *Tree;
 
 //转化广义表为二叉树
-Tree change(const char *str) {
+Tree ToTree(const char *str) {
     Tree STACK[MaxSize], p, T = NULL;
     char ch;
     int flag, i = 0, top = -1;
@@ -48,26 +48,37 @@ Tree change(const char *str) {
 }
 
 //中序输出树,输出为广义表样式
-void expand(Tree tree) {
+void Expand(Tree tree) {
     if (tree == NULL)
         return;
     printf("%c", tree->data);
     int flag;
     if (tree->lChild != NULL) {
         putchar('(');
-        expand(tree->lChild);
+        Expand(tree->lChild);
         flag = 1;
     }
     if (tree->rChild != NULL) {
         putchar(',');
-        expand(tree->rChild);
+        Expand(tree->rChild);
     }
     if (flag)
         putchar(')');
 }
+//获取叶结点的数目
+int GetLeafNum(Tree tree) {
+    if (tree == NULL)
+        return 0;
+    if (tree->lChild == NULL && tree->rChild == NULL)
+        return 1;
+
+    return GetLeafNum(tree->lChild) + GetLeafNum(tree->rChild);
+}
 
 int main(int argc, char const *argv[]) {
-    Tree t = change("A(B(C,D(E(F,G),H(I))))@");
-    expand(t);
+    Tree t = ToTree("A(B(C,D(E(F,G),H(I))))@");
+    Expand(t);
+    int c = GetLeafNum(t);
+    printf("\nLeaf Num: %d\n", c);
     return 0;
 }
