@@ -71,7 +71,6 @@ int GetLeafNum(Tree tree) {
         return 0;
     if (tree->lChild == NULL && tree->rChild == NULL)
         return 1;
-
     return GetLeafNum(tree->lChild) + GetLeafNum(tree->rChild);
 }
 int max(const int a, const int b) {
@@ -86,12 +85,120 @@ int GetDepth(Tree tree) {
     return max(GetDepth(tree->lChild), GetDepth(tree->rChild)) + 1;
 }
 
+void Visit(Tree tree) { printf("%c, ", tree->data); }
+
+void DLR(Tree tree) {
+    if (tree != NULL) {
+        Visit(tree);
+        DLR(tree->lChild);
+        DLR(tree->rChild);
+    }
+}
+void LDR(Tree tree) {
+    if (tree != NULL) {
+        LDR(tree->lChild);
+        Visit(tree);
+        LDR(tree->rChild);
+    }
+}
+void LRD(Tree tree) {
+    if (tree != NULL) {
+        LRD(tree->lChild);
+        LRD(tree->rChild);
+        Visit(tree);
+    }
+}
+//非递归前序遍历
+void NoReDLR(Tree tree) {
+    Tree STACK[MaxSize], p = tree;
+    int top = -1;
+    while (p != NULL || top != -1) {
+        while (p != NULL) {
+            Visit(p);
+            STACK[++top] = p;
+            p = p->lChild;
+        }
+        p = STACK[top--];
+        p = p->rChild;
+    }
+}
+//非递归中序遍历
+void NoReLDR(Tree tree) {
+    Tree STACK[MaxSize], p = tree;
+    int top = -1;
+    while (p != NULL || top != -1) {
+        while (p != NULL) {
+            STACK[++top] = p;
+            p = p->lChild;
+        }
+        p = STACK[top--];
+        Visit(p);
+        p = p->rChild;
+    }
+}
+//非递归后序遍历
+void NoReLRD(Tree tree) {
+    Tree STACK[MaxSize], p = tree;
+    int FLAG[MaxSize], flag, top = -1;
+    while (p != NULL || top != -1) {
+        while (p != NULL) {
+            STACK[++top] = p;
+            FLAG[top] = 0;
+            p = p->lChild;
+        }
+        p = STACK[top];
+        flag = FLAG[top--];
+        if (flag) {
+            Visit(p);
+            p = NULL;
+        } else {
+            STACK[++top] = p;
+            FLAG[top] = 1;
+            p = p->rChild;
+        }
+    }
+}
+
+//按层次遍历
+void LayerOrder(Tree tree) {
+    if (tree == NULL)
+        return;
+    Tree QUEUE[MaxSize], p = tree;
+    int front = -1, rear = 0;
+    QUEUE[rear] = tree;
+    while (front < rear) {
+        p = QUEUE[++front];
+        Visit(p);
+        if (p->lChild) {
+            QUEUE[++rear] = p->lChild;
+        }
+        if (p->rChild) {
+            QUEUE[++rear] = p->rChild;
+        }
+    }
+}
+
 int main(int argc, char const *argv[]) {
     Tree t = ToTree("A(B(C,D(E(F,G),H(I))))@");
     Expand(t);
     int c = GetLeafNum(t);
-    printf("\nLeaf Num: %d\n", c);
+    printf("\n叶子结点数目: %d\n", c);
     c = GetDepth(t);
-    printf("Depth: %d\n", c);
+    printf("深度: %d", c);
+    puts("\n-------------前序遍历-------------");
+    DLR(t);
+    puts("\n-------------非递归前序遍历-------------");
+    NoReDLR(t);
+    puts("\n-------------中序遍历-------------");
+    LDR(t);
+    puts("\n-------------非递归中序遍历-------------");
+    NoReLDR(t);
+    puts("\n-------------后序遍历-------------");
+    LRD(t);
+    puts("\n-------------非递归后序遍历-------------");
+    NoReLRD(t);
+    puts("\n-------------层次遍历-------------");
+    LayerOrder(t);
+
     return 0;
 }
