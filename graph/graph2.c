@@ -50,6 +50,23 @@ void Visit(v) {
     VLink p = G[v];
     printf("%s, ", p.vertex);
 }
+void ListGraph(int len) {
+    const char *s;
+    ELink *p;
+    int c, k;
+    for (k = 0; k < len; k++) {
+        VLink vp = G[k];
+        s = vp.vertex;
+        printf("%d :  %s --> ", k, s);
+        p = vp.link;
+        while (p != NULL) {
+            c = p->adjvex;
+            printf("%d, ", c);
+            p = p->next;
+        }
+        putchar('\n');
+    }
+}
 //删除图中数据信息为c的结点(假设满足条件的结点数目不超过1个)
 void Delete(const char *c) {
     int len = n;
@@ -58,17 +75,16 @@ void Delete(const char *c) {
     for (int i = 0; i < len && strcmp(G[i].vertex, c) != 1; i++) {
         k = i;
     }
-
     if (k == -1) {
         return;
     }
-
+    printf("删除值为\"%s\"的第%d个结点,索引为%d.\n", c, k + 1, k);
     //找到满足条件的结点
     p = G[k].link;
     //删除一个顶点,即将后续顶点全部左移
     for (i = k + 1; i < len; i++) {
-        strcpy(G[k - 1].vertex, G[k].vertex);
-        G[k - 1].link = G[k].link;
+        strcpy(G[i - 1].vertex, G[i].vertex);
+        G[i - 1].link = G[i].link;
     }
     //数组长度减少1
     len--;
@@ -88,7 +104,6 @@ void Delete(const char *c) {
                 } else {
                     q->next = p->next;
                 }
-
                 r = p;
                 p = p->next;
                 free(r);
@@ -106,30 +121,22 @@ void Delete(const char *c) {
 void DFS(int v) {
     Visit(v);
     visited[v] = 1;
-    // int w = FirstAdj(v);
-    ELink *p;
-    p = G[v].link;
+    ELink *p = G[v].link;
     int w;
-    if (p == NULL)
-        w = -1;
-    else
+    while (p != NULL) {
         w = p->adjvex;
-    p = p->next;
-    while (w != -1) {
         if (visited[w] == 0) {
             DFS(w);
         }
-        if (p != NULL) {
-            w = p->adjvex;
-            p = p->next;
-        } else {
-            w = -1;
-        }
+        p = p->next;
     }
 }
-void TravelDFS() {
+void TravelDFS(int len) {
     puts("------DFS------");
-    for (int i = 0; i < n; i++) {
+    for (int i = 0; i < len; i++) {
+        visited[i] = 0;
+    }
+    for (int i = 0; i < len; i++) {
         if (visited[i] == 0) {
             DFS(i);
         }
@@ -165,23 +172,13 @@ int main(int argc, char const *argv[]) {
         }
     }
     //输出邻接表结构
-    const char *s;
-    int c;
-    for (k = 0; k < n; k++) {
-        VLink vp = G[k];
-        s = vp.vertex;
-        printf("%s --> ", s);
-        p = vp.link;
-        while (p != NULL) {
-            c = p->adjvex;
-            printf("%d, ", c);
-            p = p->next;
-        }
-        putchar('\n');
-    }
-
+    ListGraph(n);
     // 深度优先搜索 递归
-    TravelDFS();
+    TravelDFS(n);
+    putchar('\n');
+    Delete("v3");
+    ListGraph(n - 1);
+    TravelDFS(n - 1);
 
     return 0;
 }
