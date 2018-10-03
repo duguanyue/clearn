@@ -115,6 +115,7 @@ int CountOne(Tree t1) {
     Tree p = t1;
     int top = -1, count = 0;
     while (p || top != -1) {
+        //遍历过程中每个p都要入栈一次
         while (p) {
             printf("-> %c 是否度为 1 的点%d\n", p->data,
                    (p->lChild == NULL) ^ (p->rChild == NULL));
@@ -141,7 +142,31 @@ int Ancestor(Tree tree, const char item) {
 //输出一个结点的所有祖先结点(TODO 非递归方式)
 int NoReAncestor(Tree tree, const char item) {
     //思想:利用后序遍历
-    // TODO
+    int FLAG[M], top = -1, flag;
+    Tree p = tree;
+    while (p || top != -1) {
+        while (p && p->data != item) {
+            STACK[++top] = p;
+            FLAG[top] = 0;
+            p = p->lChild;
+        }
+        if (p) {
+            while (top != -1) {
+                Visit(STACK[top--]);
+            }
+            break;
+        }
+        p = STACK[top];
+        flag = FLAG[top--];
+        if (flag) {
+            p = NULL;
+        } else {
+            STACK[++top] = p;
+            FLAG[top] = 1;
+            p = p->rChild;
+        }
+    }
+    return 0;
 }
 int main(int argc, char const *argv[]) {
     Tree t1 = ToTree("A(B(C,D(E(F,G),H(I))))@");
@@ -160,5 +185,7 @@ int main(int argc, char const *argv[]) {
     printf("二叉树中度为1的点的个数 : %d\n", CountOne(t1));
     puts("\n递归求祖先结点");
     Ancestor(t1, 'F');
+    puts("\n非递归求祖先结点");
+    NoReAncestor(t1, 'F');
     return 0;
 }
