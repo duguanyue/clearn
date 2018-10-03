@@ -46,6 +46,8 @@ typedef struct ver {
 #define e 22
 VLink G[n];
 int visited[n];
+VLink QUEUE[n];
+int front = -1, rear = -1;
 void Visit(v) {
     VLink p = G[v];
     printf("%s, ", p.vertex);
@@ -139,6 +141,43 @@ void TravelDFS(int len) {
     for (int i = 0; i < len; i++) {
         if (visited[i] == 0) {
             DFS(i);
+            printf(" / ");
+        }
+    }
+}
+//广度优先遍历
+void BFS(int v) {
+    Visit(v);
+    visited[v] = 1;
+    //入队
+    QUEUE[++rear] = G[v];
+    VLink vp;
+    ELink *p;
+    int w;
+    while (front < rear) {
+        vp = QUEUE[++front];
+        p = vp.link;
+        while (p != NULL) {
+            w = p->adjvex;
+            if (visited[w] == 0) {
+                Visit(w);
+                QUEUE[++rear] = G[w];
+                visited[w] = 1;
+            }
+            p = p->next;
+        }
+    }
+}
+void TravelBFS(int len) {
+    puts("------BFS------");
+    for (int i = 0; i < len; i++) {
+        visited[i] = 0;
+    }
+    front = -1, rear = -1;
+    for (int i = 0; i < len; i++) {
+        if (visited[i] == 0) {
+            BFS(i);
+            printf(" / ");
         }
     }
 }
@@ -175,10 +214,12 @@ int main(int argc, char const *argv[]) {
     ListGraph(n);
     // 深度优先搜索 递归
     TravelDFS(n);
+    TravelBFS(n);
     putchar('\n');
     Delete("v3");
     ListGraph(n - 1);
     TravelDFS(n - 1);
+    TravelBFS(n - 1);
 
     return 0;
 }
