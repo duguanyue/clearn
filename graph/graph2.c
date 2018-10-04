@@ -199,7 +199,7 @@ int main(int argc, char const *argv[]) {
         p->adjvex = vj - 1;
         p->weight = weight;
         p->next = NULL;
-        if (!G[vi - 1].link) {
+        if (G[vi - 1].link == NULL) {
             //如果第vi个链表只有头结点
             G[vi - 1].link = p;
         } else {
