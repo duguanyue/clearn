@@ -51,4 +51,5 @@ int main(int argc, char const *argv[]) {
         }
         printf("\n\n");
     }
+    return 0;
 }

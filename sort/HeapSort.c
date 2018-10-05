@@ -20,6 +20,7 @@ void Adjust(int arr[], int i, int n) {
             break;
         i = j;
     }
+    arr[i] = c;
 }
 int main(int argc, char const *argv[]) {
     srand(time(NULL));
@@ -42,4 +43,5 @@ int main(int argc, char const *argv[]) {
         }
         printf("\n\n");
     }
+    return 0;
 }

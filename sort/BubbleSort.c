@@ -54,4 +54,5 @@ int main(int argc, char const *argv[]) {
         PrintArr(arr, M);
         putchar('\n');
     }
+    return 0;
 }

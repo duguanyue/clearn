@@ -34,10 +34,10 @@ void QuickSort2(int arr[], int s, int t) {
     int i = s, k = t + 1;
     while (1) {
         do
-            i++;
+            ++i;
         while (arr[i] < arr[s] && i <= k);
         do
-            k--;
+            --k;
         while (arr[k] > arr[s] && i <= k);
         if (i < k)
             Swap(arr + i, arr + k);
@@ -70,4 +70,5 @@ int main(int argc, char const *argv[]) {
         }
         printf("\n\n");
     }
+    return 0;
 }
