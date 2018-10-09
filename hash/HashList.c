@@ -6,26 +6,21 @@ typedef struct node {
     int data;
 } Node, *Entity;
 typedef Entity HashList[MaxLen];
-int Hash(Entity entity) { return entity->data % MaxLen; }
-int cmp(Entity e1, Entity e2) {
-    if (e1 == NULL || e2 == NULL)
-        return e1 == e2;
-    return e1->data == e2->data;
-}
-int Insert(HashList list, Entity entity) {
-    if (entity == NULL)
-        return -1;
+int Hash(int item) { return item % MaxLen; }
+int Insert(HashList list, int item) {
     int i, D;
-    i = D = Hash(entity);
+    i = D = Hash(item);
 
-    while (list[D] != NULL && !cmp(list[D], entity)) {
+    while (list[D] != NULL && list[D]->data != item) {
         D = (D + 1) % MaxLen;
         if (D == i)
             return -1;
     }
-    if (!cmp(list[D], entity))
-        list[D] = entity;
-
+    if (list[D] == NULL || list[D]->data != item) {
+        Entity e = (Entity)malloc(sizeof(Node));
+        e->data = item;
+        list[D] = e;
+    }
     return D;
 }
 int main(int argc, char const *argv[]) {
@@ -38,9 +33,7 @@ int main(int argc, char const *argv[]) {
     }
     for (i = 0; i < 10; i++) {
         c = rand() % 100;
-        e = (Entity)malloc(sizeof(Node));
-        e->data = c;
-        f = Insert(list, e);
+        f = Insert(list, c);
         printf("%d insert number (%d) result is %d\n", i, c, f);
     }
 
@@ -53,6 +46,5 @@ int main(int argc, char const *argv[]) {
             printf("%d is %d\n", i, e->data);
         }
     }
-
     return 0;
 }
