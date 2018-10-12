@@ -122,6 +122,20 @@ void QuickSort(int *arr, int len) {
     puts("----------快速排序-----------");
     QSort(arr, 0, len - 1);
 }
+void ShellSort(int *arr, int len) {
+    puts("----------希尔排序-----------");
+    int i, j, k, gap = len;
+    while (gap > 1) {
+        gap >>= 1;
+        for (i = gap; i < len; i++) {
+            int c = arr[i];
+            for (j = i - gap; j >= 0 && arr[j] > c; j -= gap) {
+                arr[j + gap] = arr[j];
+            }
+            arr[j + gap] = c;
+        }
+    }
+}
 
 int main(int argc, char const *argv[]) {
     srand(time(NULL));
@@ -130,6 +144,7 @@ int main(int argc, char const *argv[]) {
     Sort(arr, M, InsertSort);
     Sort(arr, M, QuickSort);
     Sort(arr, M, MergeSort);
+    Sort(arr, M, ShellSort);
 
     return 0;
 }
