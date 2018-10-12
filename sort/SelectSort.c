@@ -17,7 +17,7 @@ void SelectSort(int arr[], int len) {
 }
 void SelectSort2(int arr[], int len) {
     int d, t;
-    for (int i = 0; i < len; i++) {
+    for (int i = 0; i < len - 1; i++) {
         d = i;
         for (int j = i + 1; j < len; j++) {
             if (arr[j] < arr[d])
