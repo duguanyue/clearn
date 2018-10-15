@@ -11,7 +11,7 @@ void Swap(int *a, int *b) {
 }
 void Adjust(int arr[], int i, int n) {
     int j, c = arr[i];
-    while ((j = 2 * i + 1, j) < n) {
+    while ((j = 2 * i + 1) < n) {
         if (j + 1 < n && arr[j] < arr[j + 1])
             j++;
         if (c < arr[j])

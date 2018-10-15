@@ -14,7 +14,7 @@ void Swap(int *a, int *b) {
     *b = c;
 }
 void Random(int *arr, int len) {
-    puts("\n----------随机数组----------");
+    puts("\n随机数组*********************");
     for (int i = 0; i < len; i++) {
         arr[i] = rand() % 100;
         printf("%2d, ", arr[i]);
@@ -115,6 +115,7 @@ void MSort(int *arr, int left, int right, int *tmpArr) {
     }
 }
 void MergeSort(int *arr, int len) {
+    puts("----------归并排序-----------");
     int *tmpArr = (int *)malloc(sizeof(int) * len);
     MSort(arr, 0, len - 1, tmpArr);
 }
@@ -136,6 +137,33 @@ void ShellSort(int *arr, int len) {
         }
     }
 }
+void Adjust(int *arr, int i, int n) {
+    int j, c = arr[i];
+    while ((j = i * 2 + 1) < n) {
+        if (j + 1 < n && arr[j + 1] > arr[j]) {
+            j++;
+        }
+        if (arr[j] > c) {
+            arr[i] = arr[j];
+        } else {
+            break;
+        }
+        i = j;
+    }
+    arr[i] = c;
+}
+//堆积排序(大根堆,即最大值在最上面)
+void HeapSort(int *arr, int len) {
+    puts("----------堆积排序-----------");
+    int i;
+    for (i = len / 2; i >= 0; i--) {
+        Adjust(arr, i, len);
+    }
+    for (i = len - 1; i > 0; i--) {
+        Swap(arr, arr + i);
+        Adjust(arr, 0, i);
+    }
+}
 
 int main(int argc, char const *argv[]) {
     srand(time(NULL));
@@ -145,6 +173,7 @@ int main(int argc, char const *argv[]) {
     Sort(arr, M, QuickSort);
     Sort(arr, M, MergeSort);
     Sort(arr, M, ShellSort);
+    Sort(arr, M, HeapSort);
 
     return 0;
 }
