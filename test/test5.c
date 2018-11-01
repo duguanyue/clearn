@@ -88,7 +88,7 @@ void TravalDFS(const int len) {
 }
 
 int main(int argc, char const *argv[]) {
-    freopen("/Users/hehongbo/Documents/data.txt", "r", stdin);
+    freopen("/Users/xxx/Documents/data.txt", "r", stdin);
     int k, vi, vj, weight;
     ELink *p, *q;
     for (k = 0; k < e; k++) {

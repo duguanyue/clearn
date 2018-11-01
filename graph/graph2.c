@@ -191,7 +191,7 @@ int main(int argc, char const *argv[]) {
         G[k].link = NULL;
     }
     //读取e条边的数据
-    freopen("/Users/hehongbo/Documents/data.txt", "r", stdin);
+    freopen("/Users/xxx/Documents/data.txt", "r", stdin);
     for (k = 0; k < e; k++) {
         scanf("%d %d %d", &vi, &vj, &weight);
         getchar();

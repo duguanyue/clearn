@@ -8,7 +8,7 @@ void AdjMatrix(int n, int e) {
         for (j = 0; j < MaxNum; j++)
             arr[i][j] = 0;
 
-    freopen("/Users/hehongbo/Documents/data.txt", "r", stdin);
+    freopen("/Users/xxx/Documents/data.txt", "r", stdin);
     for (k = 0; k < e; k++) {
         scanf("i=%d,j=%d,weight=%d", &i, &j, &weight);
         arr[i][j] = arr[j][i] = weight;
