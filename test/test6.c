@@ -133,6 +133,46 @@ void NoReLRD(Tree t) {
         }
     }
 }
+//输出一个结点的所有祖先结点(递归方式)
+int Ancestor(Tree t, const char item) {
+    if (t == NULL)
+        return 0;
+    if (t->data == item)
+        return 1;
+    int c = Ancestor(t->lChild, item) || Ancestor(t->rChild, item);
+    if (c)
+        Visit(t);
+    return c;
+}
+//输出一个结点的所有祖先结点(非递归方式)
+void NoReAncestor(Tree t, const char item) {
+    int top = -1, flag, FLAG[M];
+    Tree p = t, q;
+    while (p || top != -1) {
+        while (p && p->data != item) {
+            STACK[++top] = p;
+            FLAG[top] = 0;
+            p = p->lChild;
+        }
+        if (p) {
+            while (top != -1) {
+                p = STACK[top--];
+                Visit(p);
+            }
+            break;
+        }
+        p = STACK[top];
+        flag = FLAG[top--];
+
+        if (flag == 0) {
+            STACK[++top] = p;
+            FLAG[top] = 1;
+            p = p->rChild;
+        } else {
+            p = NULL;
+        }
+    }
+}
 
 int main(int argc, char const *argv[]) {
     const char *str = "A(B(D(G,H),E),C(F(I)))@";
@@ -149,5 +189,9 @@ int main(int argc, char const *argv[]) {
     LRD(t);
     puts("\n后序遍历非递归");
     NoReLRD(t);
+    puts("\n祖先节点个数");
+    Ancestor(t, 'H');
+    puts("\n祖先节点个数(非递归)");
+    NoReAncestor(t, 'H');
     return 0;
 }
