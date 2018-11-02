@@ -113,7 +113,25 @@ void LRD(Tree t) {
 }
 
 void NoReLRD(Tree t) {
-    // TODO
+    int top = -1, flag, FLAG[M];
+    Tree p = t;
+    while (p || top != -1) {
+        while (p) {
+            STACK[++top] = p;
+            FLAG[top] = 0;
+            p = p->lChild;
+        }
+        p = STACK[top];
+        flag = FLAG[top--];
+        if (flag == 0) {
+            STACK[++top] = p;
+            FLAG[top] = 1;
+            p = p->rChild;
+        } else {
+            Visit(p);
+            p = NULL;
+        }
+    }
 }
 
 int main(int argc, char const *argv[]) {
@@ -130,6 +148,6 @@ int main(int argc, char const *argv[]) {
     puts("\n后序遍历");
     LRD(t);
     puts("\n后序遍历非递归");
-    // NoReLRD(t);
+    NoReLRD(t);
     return 0;
 }
